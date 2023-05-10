@@ -29,9 +29,9 @@ class AnalogMovementTest extends React.Component {
     startTest = () => {
         this.setState({
             isTestStarted: true,
-            targetPosition: 0,
+            targetPosition: 200,
             isMovingRight: true,
-            cursorPosition: 0,
+            cursorPosition: 200,
             progress: 0,
             startTime: null,
             endTime: null,
@@ -39,22 +39,10 @@ class AnalogMovementTest extends React.Component {
         });
     };
 
-    restartTest = () => {
-        clearInterval(this.intervalId);
-        this.setState({
-            targetPosition: 0,
-            isMovingRight: true,
-            cursorPosition: 0,
-            progress: 0,
-            startTime: null,
-            endTime: null,
-            isTestStarted: false,
-        });
-    };
     moveTarget = () => {
         const { targetPosition, isMovingRight } = this.state;
-        const maxPosition = 305; // максимальная позиция вправо
-        const minPosition = -145; // максимальная позиция влево
+        const maxPosition = 675; // максимальная позиция вправо
+        const minPosition = 200; // максимальная позиция влево
 
         const step = 2; // размер шага движения шара
 
@@ -75,9 +63,9 @@ class AnalogMovementTest extends React.Component {
         const { targetPosition, cursorPosition, startTime } = this.state;
         const endTime = new Date();
         const newCursorPosition = event.keyCode === 37
-            ? Math.max(cursorPosition - 10, -122) // left arrow
+            ? Math.max(cursorPosition - 10, 200) // left arrow
             : event.keyCode === 39
-                ? Math.min(cursorPosition + 10, 328) // right arrow
+                ? Math.min(cursorPosition + 10, 675) // right arrow
                 : cursorPosition; // do nothing if other key is pressed
 
         const progress = this.calculateProgress(targetPosition, newCursorPosition);
@@ -131,7 +119,7 @@ class AnalogMovementTest extends React.Component {
                             />
                             <div
                                 style={{
-                                    position: "absolute",
+                                    position: "fixed",
                                     left: `${targetPosition + 250}px`,
                                     top: "70px",
                                     width: "50px",
@@ -142,8 +130,8 @@ class AnalogMovementTest extends React.Component {
                             />
                             <div
                                 style={{
-                                    position: "absolute",
-                                    left: `${cursorPosition + 250 - 25}px`,
+                                    position: "fixed",
+                                    left: `${cursorPosition + 250}px`,
                                     bottom: "12px",
                                     width: "50px",
                                     top: "70px",
@@ -155,7 +143,7 @@ class AnalogMovementTest extends React.Component {
                         </div>
                         <div style={{ marginTop: "20px" }} />
                         <progress value={progress} max="100" />
-                        <button onClick={this.restartTest}>Перезапустить тест</button>
+                        <button onClick={this.startTest}>Перезапустить тест</button>
                     </>
                 )}
             </div>
